@@ -1,0 +1,86 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		215EA4A4160183D0008B6743 /* i2CDev.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = i2CDev.cpp; path = ../i2CDev.cpp; sourceTree = "<group>"; };
+		215EA4A5160183D0008B6743 /* i2CDev.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = i2CDev.h; path = ../i2CDev.h; sourceTree = "<group>"; };
+		215EA4A6160183D0008B6743 /* i2cTest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = i2cTest.cpp; path = ../i2cTest.cpp; sourceTree = "<group>"; };
+		215EA4A7160183D0008B6743 /* i2cTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = i2cTest.h; path = ../i2cTest.h; sourceTree = "<group>"; };
+		215EA4A8160183D0008B6743 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../main.cpp; sourceTree = "<group>"; };
+		215EA4A9160183D0008B6743 /* main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = main.h; path = ../main.h; sourceTree = "<group>"; };
+		215EA4AA160183D0008B6743 /* MPU6050.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MPU6050.cpp; path = ../MPU6050.cpp; sourceTree = "<group>"; };
+		215EA4AB160183D0008B6743 /* MPU6050.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MPU6050.h; path = ../MPU6050.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		215EA49B16018359008B6743 = {
+			isa = PBXGroup;
+			children = (
+				215EA4A4160183D0008B6743 /* i2CDev.cpp */,
+				215EA4A5160183D0008B6743 /* i2CDev.h */,
+				215EA4A6160183D0008B6743 /* i2cTest.cpp */,
+				215EA4A7160183D0008B6743 /* i2cTest.h */,
+				215EA4A8160183D0008B6743 /* main.cpp */,
+				215EA4A9160183D0008B6743 /* main.h */,
+				215EA4AA160183D0008B6743 /* MPU6050.cpp */,
+				215EA4AB160183D0008B6743 /* MPU6050.h */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		215EA49D16018359008B6743 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+			};
+			buildConfigurationList = 215EA4A016018359008B6743 /* Build configuration list for PBXProject "i2c_BeagleBone_OSX_DIR" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 215EA49B16018359008B6743;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		215EA4A216018359008B6743 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		215EA4A316018359008B6743 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		215EA4A016018359008B6743 /* Build configuration list for PBXProject "i2c_BeagleBone_OSX_DIR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				215EA4A216018359008B6743 /* Debug */,
+				215EA4A316018359008B6743 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 215EA49D16018359008B6743 /* Project object */;
+}
