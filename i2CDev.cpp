@@ -293,7 +293,7 @@ bool i2Cdev::writeBits(unsigned char devAddr, unsigned char regAddr, unsigned ch
 }
 
 
-
+/*
 
 int main() {
     i2Cdev *temp_sensor = new i2Cdev();
@@ -389,6 +389,6 @@ int main() {
     return 0;
 }
 
-
+*/
 
 
