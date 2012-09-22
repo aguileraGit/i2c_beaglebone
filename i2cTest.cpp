@@ -23,11 +23,13 @@ int main() {
     
     i2Cdev *temp_sensor = new i2Cdev();
     
+    #define MPU6050_RA_GYRO_CONFIG      0x1B
+    #define MPU6050_RA_ACCEL_CONFIG     0x1C
+    #define MPU6050_RA_INT_ENABLE       0x38
+    
     unsigned enabled = 1;
     unsigned devAddr = 0x68;
     unsigned char buffer[14];
-    
-    unsigned char reCharUn;
     
     //Test writeByte
     /** Set full interrupt enabled status.
@@ -38,29 +40,42 @@ int main() {
      * @see MPU6050_RA_INT_ENABLE -> 0x38
      * @see MPU6050_INTERRUPT_FF_BIT
      **/
-    temp_sensor -> writeByte(devAddr, 0x38, enabled);
-
-    //Test readByte
-    reCharUn = temp_sensor -> readByte(devAddr, 0x38, buffer);
-    printf("byte is: %d\n", reCharUn);
+    
+    temp_sensor -> writeByte(devAddr, MPU6050_RA_INT_ENABLE, enabled);
+    temp_sensor -> readByte(devAddr, MPU6050_RA_INT_ENABLE, buffer);
+    printf("MPU6050_RA_INT_ENABLE is: %X\n", buffer[0]);
     
     enabled = 0;
     
-    temp_sensor -> writeByte(devAddr, 0x38, enabled);
+    temp_sensor -> writeByte(devAddr, MPU6050_RA_INT_ENABLE, enabled);
+    temp_sensor -> readByte(devAddr, MPU6050_RA_INT_ENABLE, buffer);
+    printf("MPU6050_RA_INT_ENABLE is: %X\n", buffer[0]);
+
+    printf("\n");
     
-    //readByte returned 0 and 1 accordingly using 0x38 but not 0x1B or 0x1C
-    reCharUn = temp_sensor -> readByte(devAddr, 0x1B, buffer);
-    printf("byte is: %d\n", reCharUn);
+    temp_sensor -> readByte(devAddr, MPU6050_RA_GYRO_CONFIG, buffer);
+    printf("2-byte is: %X\n", buffer[0]);
     
-    reCharUn = temp_sensor -> readByte(devAddr, 0x1C, buffer);
-    printf("byte is: %d\n", reCharUn);
+    temp_sensor -> readByte(devAddr, MPU6050_RA_ACCEL_CONFIG, buffer);
+    printf("3-byte is: %X\n", buffer[0]);
     
     //New test read and write bits
-    temp_sensor -> writeBits(devAddr, 0x1B, 4, 4, 0x01);
+    temp_sensor -> writeBits(devAddr, MPU6050_RA_GYRO_CONFIG, 4, 4, 0x01);
     
-    reCharUn = temp_sensor -> readBits(devAddr, 0x1B, 4, 2, buffer);
-    printf("gyro_config: %d\n", reCharUn);
+    temp_sensor -> readBits(devAddr, MPU6050_RA_GYRO_CONFIG, 4, 2, buffer);
+    printf("gyro_config: %X\n", buffer[0]);
+    
+    //Try reading the whole accel
+    temp_sensor -> readBytes(devAddr, 0x3B, 14, buffer);
+    printf("All values is: %X\n", buffer[6] );
     
     
     return 0;
 }
+
+
+
+
+
+
+

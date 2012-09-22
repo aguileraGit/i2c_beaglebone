@@ -22,50 +22,56 @@
 int main() {
     
     MPU6050 *MPU_1 = new MPU6050();
-    
-    bool return_bool = 0;
-    int return_int;
-    char return_char = 0;
-    unsigned char return_char_un = 0;
     int i;
     unsigned char buffer[14];
     
-    //Initialize doesn't return anything
-    //MPU_1 -> initialize();
+    //Run init functions 
     
+    //Set clock
+    printf("\nSet/get clock\n");
     MPU_1 -> setClockSource(MPU6050_CLOCK_PLL_XGYRO);
     MPU_1 -> getClockSource();
     printf("getClockSource: %X\n", buffer[0]);
     
+    //Set Gyroscale
+    printf("\nSet/get gyro range\n");
     MPU_1 -> setFullScaleGyroRange(MPU6050_GYRO_FS_250);
     MPU_1 -> getFullScaleGyroRange();
     printf("getFullScaleGyroRange: %X\n", buffer[0]);
     
+    //Set Accel range
+    printf("\nSet/get accel range\n");
     MPU_1 -> setFullScaleAccelRange(MPU6050_ACCEL_FS_2);
     MPU_1 -> getFullScaleAccelRange();
     printf("getFullScaleAccelRange: %X\n", buffer[0]);
     
+    //Wake it up
+    printf("\nWake up\n");
     MPU_1 -> setSleepEnabled(false);
     MPU_1 -> getSleepEnabled();
-    printf("getSleepEnabled: %X\n", return_bool);
-    
-    return_char_un = MPU_1 -> getDeviceID();
+    printf("getSleepEnabled: %X\n", buffer[0]);
+
+    //Get device ID
+    printf("\nGet Device ID\n");
+    MPU_1 -> getDeviceID();
     printf("getDeviceID: %X\n", buffer[0]);
     
-    for (i = 0; i < 20; i++) {
+    //Read 10 X,Y,A Accel values
+    printf("\nAccel Values\n");
+    for (i= 0; i< 10; i++) {
         
-        return_int = MPU_1 -> getAccelerationX();
-        printf("X_accel: %d\n", return_int);
-        sleep(1);
+        //Test - Read Accel - Passes
+        int reInt1 = MPU_1 -> getAccelerationX();
+        printf("Accel_X: %d\n", reInt1);
         
-        return_int = MPU_1 -> getAccelerationY();
-        printf("Y_accel: %d\n", return_int);
-        sleep(1);
+        int reInt2 = MPU_1 -> getAccelerationY();
+        printf("Accel_Y: %d\n", reInt2);
         
-        return_int = MPU_1 -> getAccelerationZ();
-        printf("Z_accel: %d\n\n", return_int);
+        int reInt3 = MPU_1 -> getAccelerationZ();
+        printf("Accel_Z: %d\n", reInt3);
+        
+        
         sleep(1);
-    
         
     }
     

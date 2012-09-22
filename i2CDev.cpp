@@ -162,8 +162,8 @@ unsigned char i2Cdev::readBit(unsigned char devAddr, unsigned char regAddr, unsi
     
     
     //For testing actual output
-    printf("i2c - readBit - Count: %X\n", count);
-    printf("i2c - readBit - data: %X\n\n", data);
+    //printf("i2c - readBit - Count: %X\n", count);
+    printf("i2c - readBit - data: %X\n", *data);
     
     return count;
     
@@ -188,14 +188,16 @@ unsigned char i2Cdev::readBits(unsigned char devAddr, unsigned char regAddr, uns
     unsigned char count, b;
     if ((count = readByte(devAddr, regAddr, &b)) != 0) {
         unsigned char mask = ((1 << length) - 1) << (bitStart - length + 1);
+        //printf("i2c - readBits - Mask: %X\n", b);
         b &= mask;
+        //printf("i2c - readBits - B: %X\n", b);
         b >>= (bitStart - length + 1);
         *data = b;
     }
     
     //For testing actual output
-    printf("i2c - readBits - Count: %X\n", count);
-    printf("i2c - readBits - data: %X\n\n", *data);
+    printf("i2c - readBits - b: %c\n", b);
+    printf("i2c - readBits - data: %X\n", *data );
     
     return count;
     
@@ -278,7 +280,7 @@ bool i2Cdev::writeBits(unsigned char devAddr, unsigned char regAddr, unsigned ch
     
     unsigned char b;
     if (readByte(devAddr, regAddr, &b) != 0) {
-        printf("In like flint\n");
+        //printf("In like flint\n");
         unsigned char mask = ((1 << length) - 1) << (bitStart - length + 1);
         data <<= (bitStart - length + 1); // shift data into correct position
         data &= mask; // zero all non-important bits in data
@@ -292,8 +294,8 @@ bool i2Cdev::writeBits(unsigned char devAddr, unsigned char regAddr, unsigned ch
     }
 }
 
-
 /*
+
 
 int main() {
     i2Cdev *temp_sensor = new i2Cdev();
@@ -311,7 +313,7 @@ int main() {
     temp_sensor -> writeByte(devAddr, 0x38, enabled);
     
     temp_sensor -> readByte(devAddr, 0x38, buffer);
-    printf("byte is: %X\n", buffer[0]);
+    printf("Check here - byte is: %X\n", buffer[0]);
     
     enabled = 0;
     temp_sensor -> writeByte(devAddr, 0x38, enabled);
@@ -337,7 +339,7 @@ int main() {
     
     
     //getdeviceid - passes
-    temp_sensor -> readBits(devAddr, 0x75, 6, 6, buffer);
+    temp_sensor -> readBits(devAddr, 0x75, 6, 6, buffer); //6 6
     printf("id is: %X\n", buffer[0]);
     
     
@@ -389,6 +391,6 @@ int main() {
     return 0;
 }
 
-*/
 
+*/
 

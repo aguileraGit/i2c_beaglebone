@@ -957,6 +957,9 @@ public:
     uint dmpGetFIFOPacketSize();
 #endif
     
+    //unsigned char devAddr;
+    //unsigned char buffer[14];
+    
 private:
     unsigned char devAddr;
     unsigned char buffer[14];
