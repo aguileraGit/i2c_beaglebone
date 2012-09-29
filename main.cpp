@@ -32,29 +32,29 @@ int main() {
     //Run init functions
     
     //Full reset
-    printf("Full reset\n\n");
+    printf("Full reset\n");
     MPU_1 -> reset();
     sleep(1);
     
     //Reset Sensors
-    printf("Reset Sensors\n\n");
+    printf("\nReset Sensors\n");
     MPU_1 -> resetSensors();
     sleep(1);
     
     //Set AuxVDDIO
-    printf("Set AuxVDD IO Level to 0\n\n");
+    printf("\nSet AuxVDD IO Level to 0\n");
     MPU_1 -> setAuxVDDIOLevel(0);
     
     //Set WakeCycleEnabled
-    printf("Set Wake Cycle to enabled\n\n");
+    printf("\nSet Wake Cycle to enabled\n");
     MPU_1 -> setWakeCycleEnabled(0);
     
     //Set Wake Frequency
-    printf("Set Wake Frequency to 3\n\n");
+    printf("\nSet Wake Frequency to 3\n");
     MPU_1 -> setWakeFrequency(3);
 
     //Set FIFO enabled
-    printf("Set FIFO to enabled\n\n");
+    printf("\nSet FIFO to enabled\n");
     MPU_1 -> setFIFOEnabled(1);
     
     //Set clock
