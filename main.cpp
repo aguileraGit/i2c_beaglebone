@@ -23,52 +23,84 @@ int main() {
     
     MPU6050 *MPU_1 = new MPU6050();
     int i;
+    unsigned char *buffer_ptr = NULL;
     unsigned char buffer[14];
     
-    //Run init functions 
+    buffer_ptr = &buffer[0];
+    
+    
+    //Run init functions
+    
+    //Full reset
+    printf("Full reset\n\n");
+    MPU_1 -> reset();
+    sleep(1);
+    
+    //Reset Sensors
+    printf("Reset Sensors\n\n");
+    MPU_1 -> resetSensors();
+    sleep(1);
+    
+    //Set AuxVDDIO
+    printf("Set AuxVDD IO Level to 0\n\n");
+    MPU_1 -> setAuxVDDIOLevel(0);
+    
+    //Set WakeCycleEnabled
+    printf("Set Wake Cycle to enabled\n\n");
+    MPU_1 -> setWakeCycleEnabled(0);
+    
+    //Set Wake Frequency
+    printf("Set Wake Frequency to 3\n\n");
+    MPU_1 -> setWakeFrequency(3);
+
+    //Set FIFO enabled
+    printf("Set FIFO to enabled\n\n");
+    MPU_1 -> setFIFOEnabled(1);
     
     //Set clock
     printf("\nSet/get clock\n");
-    MPU_1 -> setClockSource(MPU6050_CLOCK_PLL_XGYRO);
-    MPU_1 -> getClockSource();
-    printf("getClockSource: %X\n", buffer[0]);
+    //MPU_1 -> setClockSource(MPU6050_CLOCK_PLL_XGYRO);
+    MPU_1 -> setClockSource(0);
+    MPU_1 -> getClockSource(buffer_ptr);
+    printf("getClockSource: %X\n", *buffer_ptr);
     
     //Set Gyroscale
     printf("\nSet/get gyro range\n");
     MPU_1 -> setFullScaleGyroRange(MPU6050_GYRO_FS_250);
-    MPU_1 -> getFullScaleGyroRange();
-    printf("getFullScaleGyroRange: %X\n", buffer[0]);
+    MPU_1 -> getFullScaleGyroRange(buffer_ptr);
+    printf("getFullScaleGyroRange: %X\n", *buffer_ptr);
     
     //Set Accel range
     printf("\nSet/get accel range\n");
     MPU_1 -> setFullScaleAccelRange(MPU6050_ACCEL_FS_2);
-    MPU_1 -> getFullScaleAccelRange();
-    printf("getFullScaleAccelRange: %X\n", buffer[0]);
+    MPU_1 -> getFullScaleAccelRange(buffer_ptr);
+    printf("getFullScaleAccelRange: %X\n", *buffer_ptr);
     
     //Wake it up
     printf("\nWake up\n");
     MPU_1 -> setSleepEnabled(false);
-    MPU_1 -> getSleepEnabled();
-    printf("getSleepEnabled: %X\n", buffer[0]);
+    MPU_1 -> getSleepEnabled(buffer_ptr);
+    printf("getSleepEnabled: %X\n", *buffer_ptr);
 
     //Get device ID
     printf("\nGet Device ID\n");
-    MPU_1 -> getDeviceID();
-    printf("getDeviceID: %X\n", buffer[0]);
-    
+    MPU_1 -> getDeviceID(buffer_ptr);
+    printf("getDeviceID: %X\n", *buffer_ptr);
+
     //Read 10 X,Y,A Accel values
     printf("\nAccel Values\n");
     for (i= 0; i< 10; i++) {
         
         //Test - Read Accel - Passes
-        int reInt1 = MPU_1 -> getAccelerationX();
-        printf("Accel_X: %d\n", reInt1);
+        MPU_1 -> getAccelerationX(buffer_ptr);
+        //(((int)buffer[0]) << 8) | buffer[1];
+        printf("Accel_X: %d\n", *buffer_ptr);
         
-        int reInt2 = MPU_1 -> getAccelerationY();
-        printf("Accel_Y: %d\n", reInt2);
+        MPU_1 -> getAccelerationY(buffer_ptr);
+        printf("Accel_Y: %d\n", *buffer_ptr);
         
-        int reInt3 = MPU_1 -> getAccelerationZ();
-        printf("Accel_Z: %d\n", reInt3);
+        MPU_1 -> getAccelerationZ(buffer_ptr);
+        printf("Accel_Z: %d\n", *buffer_ptr);
         
         
         sleep(1);

@@ -83,8 +83,8 @@ unsigned char i2Cdev::readByte(unsigned char devAddr, unsigned char regAddr, uns
     //Save buffer... to what? Error.
     *data = I2C_RD_Buf[0];
     
-    printf("readByte - I2C_RD_Buffer: %X\n", I2C_RD_Buf[0]);
-    printf("readByte - data: %X\n", *data);
+    //printf("readByte - I2C_RD_Buffer: %X\n", I2C_RD_Buf[0]);
+    printf("i2C - readByte - data: %X\n", *data);
     
     //Made it this far. Everything must of passed. Return 0. Usually 0 is success, but this would cause it to not go into readBit if statement.
     return 1;
@@ -103,6 +103,7 @@ unsigned char i2Cdev::readByte(unsigned char devAddr, unsigned char regAddr, uns
 unsigned char i2Cdev::readBytes(unsigned char devAddr, unsigned char regAddr, unsigned char length, unsigned char *data) {
     
     I2C_WR_Buf[0] = regAddr;
+    int i;
     
     //Open for reading
     i2cFile = open("/dev/i2c-3", O_RDWR);
@@ -137,9 +138,10 @@ unsigned char i2Cdev::readBytes(unsigned char devAddr, unsigned char regAddr, un
     //Save buffer to data... Error data needs to be define or something.
     *data = I2C_RD_Buf[length];
     
-    printf("readBytes - I2C_RD_Buffer: %X\n", I2C_RD_Buf[length]);
-    printf("readBytes - data: %X\n", *data);
-    
+    //printf("readBytes - I2C_RD_Buffer: %X\n", I2C_RD_Buf[length]);
+    for(i = 0; i< length; i++){
+        printf("i2c - readBytes - data: %X\n", *(data + i) );
+    }
     
     //Return number of bytes returned.
     return length;
@@ -196,7 +198,7 @@ unsigned char i2Cdev::readBits(unsigned char devAddr, unsigned char regAddr, uns
     }
     
     //For testing actual output
-    printf("i2c - readBits - b: %c\n", b);
+    //printf("i2c - readBits - b: %c\n", b);
     printf("i2c - readBits - data: %X\n", *data );
     
     return count;
@@ -220,6 +222,7 @@ bool i2Cdev::writeBit(unsigned char devAddr, unsigned char regAddr, unsigned cha
     unsigned char b;
     readByte(devAddr, regAddr, &b);
     b = (data != 0) ? (b | (1 << bitNum)) : (b & ~(1 << bitNum));
+    printf("i2c - writeBit - b: %X\n", b);
     return writeByte(devAddr, regAddr, b);
 }
 
@@ -258,6 +261,8 @@ bool i2Cdev::writeByte(unsigned char devAddr, unsigned char regAddr, unsigned ch
     
     //Close
     close(i2cFile);
+    
+    printf("i2C - writeByte - data: %X\n", data);
 }
 
 
@@ -286,16 +291,17 @@ bool i2Cdev::writeBits(unsigned char devAddr, unsigned char regAddr, unsigned ch
         data &= mask; // zero all non-important bits in data
         b &= ~(mask); // zero all important bits in existing byte
         b |= data; // combine data with existing byte
+        printf("i2c - writeBit - b: %X\n", b);
         return writeByte(devAddr, regAddr, b);
     } else {
         //else was already here
-        //printf("writeBits - No bueno!\n");
+        printf("writeBits - No bueno!\n");
         return false;
     }
 }
 
-/*
 
+/*
 
 int main() {
     i2Cdev *temp_sensor = new i2Cdev();
@@ -303,78 +309,90 @@ int main() {
     unsigned enabled = 1;
     unsigned devAddr = 0x68;
     unsigned char buffer[14]; //14
-    
     int i;
     
-    unsigned char reCharUn;
-    bool reBool;
-    
     //Test INT_ENABLE register
+    printf("INT Enable test\n");
     temp_sensor -> writeByte(devAddr, 0x38, enabled);
-    
     temp_sensor -> readByte(devAddr, 0x38, buffer);
-    printf("Check here - byte is: %X\n", buffer[0]);
+    printf("Enabled should be 1. Result is: %X\n", buffer[0]);
     
     enabled = 0;
+    
     temp_sensor -> writeByte(devAddr, 0x38, enabled);
-    
     temp_sensor -> readByte(devAddr, 0x38, buffer);
-    printf("byte is: %X\n", buffer[0]);
+    printf("Enabled should be 0. Result is: %X\n", buffer[0]);
     
-    //Results passed
+    printf("\n");
     
     
     
-    //Test GYRO_CONFIG register - Test failed! I get back writebits and readBits - No bueno!
-    
+    //Test GYRO_CONFIG
+    printf("Gyro config test\n");
     temp_sensor -> writeBits(devAddr, 0x1B, 4, 2, 1);
-    
-    //Continue test by testing if we can read from the byte
     temp_sensor -> readByte(devAddr, 0x1B, buffer);
-    printf("Byte read: %X\n", buffer[0]);
-    
     temp_sensor -> readBits(devAddr, 0x1B, 4, 2, buffer);
     printf("gyro_config: %X\n", buffer[0]);
     
+    printf("\n");
     
     
-    //getdeviceid - passes
-    temp_sensor -> readBits(devAddr, 0x75, 6, 6, buffer); //6 6
+    //getdeviceid
+    printf("Get Device ID\n");
+    temp_sensor -> readBits(devAddr, 0x75, 6, 6, buffer);
     printf("id is: %X\n", buffer[0]);
     
+    printf("\n");
     
-    //sleepEnabled - Passes
-    temp_sensor -> writeBit(devAddr, 0x6B, 6, 1);
-    
+    //sleepEnabled
+    printf("Sleep enabled = 0 Test...\n");
+    //get byte
+    temp_sensor -> readByte(devAddr, 0x6B, buffer);
+    printf("Full byte is: %X\n", buffer[0]);
+    temp_sensor -> writeBit(devAddr, 0x6B, 6, 0);
+    sleep(1);
+    printf("\n");
     temp_sensor -> readBit(devAddr, 0x6B, 6, buffer);
     printf("Sleep enabled?: %X\n", buffer[0]);
     
+    printf("\n");
+    
     //Leave sleep enabled off
-    temp_sensor -> writeBit(devAddr, 0x6B, 6, 0);
-    
+    /*
+    printf("Sleep enabled = 1 Test...\n");
+    //get byte
+    temp_sensor -> readByte(devAddr, 0x6B, buffer);
+    printf("Full byte is: %X\n", buffer[0]);
+    temp_sensor -> writeBit(devAddr, 0x6B, 6, 1);
+    sleep(1);
+    printf("\n");
     temp_sensor -> readBit(devAddr, 0x6B, 6, buffer);
-    printf("Sleep enabled?: %d\n", buffer[0]);
+    printf("Sleep enabled?: %X\n", buffer[0]);
     
-    //Reset
-    temp_sensor -> writeBit(devAddr, 0x6B, 7, false);
+    */
+    /*
+    //Read from Accel
+    printf("\nRead from Accel\n");
     
-    for (i= 0; i< 10; i++) {
+    for (i= 0; i< 3; i++) {
 
-        //Test - Read Accel - Passes
         temp_sensor -> readBytes(devAddr, 0x3B, 2, buffer);
+        printf("Accel_X: %X, %X\n", buffer[0], buffer[1] );
         //Convert to int
-        unsigned int reInt1  = (((int)buffer[0]) << 8) | buffer[1];
-        printf("Accel_X: %d\n", reInt1);
+        //unsigned int reInt1  = (((int)buffer[0]) << 8) | buffer[1];
+        //printf("Accel_X: %d\n", reInt1);
         
         temp_sensor -> readBytes(devAddr, 0x3D, 2, buffer);
+        printf("Accel_Y: %X, %X\n", buffer[0], buffer[1] );
         //Convert to int
-        unsigned int reInt2  = (((int)buffer[0]) << 8) | buffer[1];
-        printf("Accel_Y: %d\n", reInt2);
+        //unsigned int reInt2  = (((int)buffer[0]) << 8) | buffer[1];
+        //printf("Accel_Y: %d\n", reInt2);
         
         temp_sensor -> readBytes(devAddr, 0x3F, 2, buffer);
+        printf("Accel_Z: %X, %X\n", buffer[0], buffer[1] );
         //Convert to int
-        unsigned int reInt3  = (((int)buffer[0]) << 8) | buffer[1];
-        printf("Accel_Z: %d\n\n", reInt3);
+        //unsigned int reInt3  = (((int)buffer[0]) << 8) | buffer[1];
+        //printf("Accel_Z: %d\n\n", reInt3);
         
         
         sleep(1);
@@ -382,8 +400,8 @@ int main() {
     }
     
     //Try reading the whole accel
-    //reCharUn = temp_sensor -> readBytes(devAddr, 0x3B, 14, buffer);
-    //printf("All values is: %X\n", reCharUn);
+    temp_sensor -> readBytes(devAddr, 0x3B, 14, buffer);
+    printf("All values is: %X, %X, %X\n", buffer[0], buffer[1], buffer[2]);
     
     
     

@@ -382,7 +382,7 @@ public:
     MPU6050(unsigned char address);
     
     void initialize();
-    bool testConnection();
+    //bool testConnection(buffer_ptr);
     
     // AUX_VDDIO register
     unsigned char getAuxVDDIOLevel();
@@ -399,7 +399,7 @@ public:
     void setDLPFMode(unsigned char bandwidth);
     
     // GYRO_CONFIG register
-    unsigned char getFullScaleGyroRange();
+    void getFullScaleGyroRange(unsigned char *buffer_ptr);
     void setFullScaleGyroRange(unsigned char range);
     
     // ACCEL_CONFIG register
@@ -409,7 +409,7 @@ public:
     void setAccelYSelfTest(bool enabled);
     bool getAccelZSelfTest();
     void setAccelZSelfTest(bool enabled);
-    unsigned char getFullScaleAccelRange();
+    void getFullScaleAccelRange(unsigned char *buffer_ptr);
     void setFullScaleAccelRange(unsigned char range);
     unsigned char getDHPFMode();
     void setDHPFMode(unsigned char mode);
@@ -557,9 +557,9 @@ public:
     void getMotion9(int* ax, int* ay, int* az, int* gx, int* gy, int* gz, int* mx, int* my, int* mz);
     void getMotion6(int* ax, int* ay, int* az, int* gx, int* gy, int* gz);
     void getAcceleration(int* x, int* y, int* z);
-    int getAccelerationX();
-    int getAccelerationY();
-    int getAccelerationZ();
+    void getAccelerationX(unsigned char *buffer_ptr);
+    void getAccelerationY(unsigned char *buffer_ptr);
+    void getAccelerationZ(unsigned char *buffer_ptr);
     
     // TEMP_OUT_* registers
     int getTemperature();
@@ -618,13 +618,13 @@ public:
     
     // PWR_MGMT_1 register
     void reset();
-    bool getSleepEnabled();
+    void getSleepEnabled(unsigned char *buffer_ptr);
     void setSleepEnabled(bool enabled);
     bool getWakeCycleEnabled();
     void setWakeCycleEnabled(bool enabled);
     bool getTempSensorEnabled();
     void setTempSensorEnabled(bool enabled);
-    unsigned char getClockSource();
+    void getClockSource(unsigned char *buffer_ptr);
     void setClockSource(unsigned char source);
     
     // PWR_MGMT_2 register
@@ -652,7 +652,7 @@ public:
     void getFIFOBytes(unsigned char *data, unsigned char length);
     
     // WHO_AM_I register
-    unsigned char getDeviceID();
+    void getDeviceID(unsigned char *buffer_ptr);
     void setDeviceID(unsigned char id);
     
     // ======== UNDOCUMENTED/DMP REGISTERS/METHODS ========

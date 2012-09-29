@@ -48,19 +48,19 @@ MPU6050::MPU6050(unsigned char address) {
  * the default internal clock source.
  */
 void MPU6050::initialize() {
-    setClockSource(MPU6050_CLOCK_PLL_XGYRO);
-    setFullScaleGyroRange(MPU6050_GYRO_FS_250);
-    setFullScaleAccelRange(MPU6050_ACCEL_FS_2);
-    setSleepEnabled(false); // thanks to Jack Elston for pointing this one out!
+    //setClockSource(MPU6050_CLOCK_PLL_XGYRO);
+    //setFullScaleGyroRange(MPU6050_GYRO_FS_250);
+    //setFullScaleAccelRange(MPU6050_ACCEL_FS_2);
+    //setSleepEnabled(false); // thanks to Jack Elston for pointing this one out!
 }
 
 /** Verify the I2C connection.
  * Make sure the device is connected and responds as expected.
  * @return True if connection is valid, false otherwise
  */
-bool MPU6050::testConnection() {
-    return getDeviceID() == 0x34;
-}
+//bool MPU6050::testConnection(unsigned char *buffer_ptr) {
+//    return getDeviceID(buffer_ptr) == 0x34;
+//}
 
 // AUX_VDDIO register (InvenSense demo code calls this RA_*G_OFFS_TC)
 
@@ -224,9 +224,9 @@ void MPU6050::setDLPFMode(unsigned char mode) {
  * @see MPU6050_GCONFIG_FS_SEL_BIT
  * @see MPU6050_GCONFIG_FS_SEL_LENGTH
  */
-unsigned char MPU6050::getFullScaleGyroRange() {
-     temp_sensor -> readBits(devAddr, MPU6050_RA_GYRO_CONFIG, MPU6050_GCONFIG_FS_SEL_BIT, MPU6050_GCONFIG_FS_SEL_LENGTH, buffer);
-    return  buffer[0];
+void MPU6050::getFullScaleGyroRange(unsigned char *buffer_ptr) {
+    temp_sensor -> readBits(devAddr, MPU6050_RA_GYRO_CONFIG, MPU6050_GCONFIG_FS_SEL_BIT, MPU6050_GCONFIG_FS_SEL_LENGTH, buffer_ptr);
+    //return  buffer[0];
 }
 /** Set full-scale gyroscope range.
  * @param range New full-scale gyroscope range value
@@ -304,9 +304,9 @@ void MPU6050::setAccelZSelfTest(bool enabled) {
  * @see MPU6050_ACONFIG_AFS_SEL_BIT
  * @see MPU6050_ACONFIG_AFS_SEL_LENGTH
  */
-unsigned char MPU6050::getFullScaleAccelRange() {
-     temp_sensor -> readBits(devAddr, MPU6050_RA_ACCEL_CONFIG, MPU6050_ACONFIG_AFS_SEL_BIT, MPU6050_ACONFIG_AFS_SEL_LENGTH, buffer);
-    return  buffer[0];
+void MPU6050::getFullScaleAccelRange(unsigned char *buffer_ptr) {
+    temp_sensor -> readBits(devAddr, MPU6050_RA_ACCEL_CONFIG, MPU6050_ACONFIG_AFS_SEL_BIT, MPU6050_ACONFIG_AFS_SEL_LENGTH, buffer_ptr);
+    //return  buffer[0];
 }
 /** Set full-scale accelerometer range.
  * @param range New full-scale accelerometer range setting
@@ -1774,27 +1774,27 @@ void MPU6050::getAcceleration(int* x, int* y, int* z) {
  * @see getMotion6()
  * @see MPU6050_RA_ACCEL_XOUT_H
  */
-int MPU6050::getAccelerationX() {
-     temp_sensor -> readBytes(devAddr, MPU6050_RA_ACCEL_XOUT_H, 2, buffer);
-    return (((int)buffer[0]) << 8) | buffer[1];
+void MPU6050::getAccelerationX(unsigned char *buffer_ptr) {
+    temp_sensor -> readBytes(devAddr, MPU6050_RA_ACCEL_XOUT_H, 2, buffer);
+    //return (((int)buffer[0]) << 8) | buffer[1];
 }
 /** Get Y-axis accelerometer reading.
  * @return Y-axis acceleration measurement in 16-bit 2's complement format
  * @see getMotion6()
  * @see MPU6050_RA_ACCEL_YOUT_H
  */
-int MPU6050::getAccelerationY() {
-     temp_sensor -> readBytes(devAddr, MPU6050_RA_ACCEL_YOUT_H, 2, buffer);
-    return (((int)buffer[0]) << 8) | buffer[1];
+void MPU6050::getAccelerationY(unsigned char *buffer_ptr) {
+    temp_sensor -> readBytes(devAddr, MPU6050_RA_ACCEL_YOUT_H, 2, buffer);
+    //return (((int)buffer[0]) << 8) | buffer[1];
 }
 /** Get Z-axis accelerometer reading.
  * @return Z-axis acceleration measurement in 16-bit 2's complement format
  * @see getMotion6()
  * @see MPU6050_RA_ACCEL_ZOUT_H
  */
-int MPU6050::getAccelerationZ() {
-     temp_sensor -> readBytes(devAddr, MPU6050_RA_ACCEL_ZOUT_H, 2, buffer);
-    return (((int)buffer[0]) << 8) | buffer[1];
+void MPU6050::getAccelerationZ(unsigned char *buffer_ptr) {
+    temp_sensor -> readBytes(devAddr, MPU6050_RA_ACCEL_ZOUT_H, 2, buffer);
+    //return (((int)buffer[0]) << 8) | buffer[1];
 }
 
 // TEMP_OUT_* registers
@@ -2357,9 +2357,9 @@ void MPU6050::reset() {
  * @see MPU6050_RA_PWR_MGMT_1
  * @see MPU6050_PWR1_SLEEP_BIT
  */
-bool MPU6050::getSleepEnabled() {
-    temp_sensor -> readBit(devAddr, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_SLEEP_BIT, buffer);
-    return buffer[0];
+void MPU6050::getSleepEnabled(unsigned char *buffer_ptr) {
+    temp_sensor -> readBit(devAddr, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_SLEEP_BIT, buffer_ptr);
+    //return buffer[0];
 }
 /** Set sleep mode status.
  * @param enabled New sleep mode enabled status
@@ -2426,9 +2426,9 @@ void MPU6050::setTempSensorEnabled(bool enabled) {
  * @see MPU6050_PWR1_CLKSEL_BIT
  * @see MPU6050_PWR1_CLKSEL_LENGTH
  */
-unsigned char MPU6050::getClockSource() {
-     temp_sensor -> readBits(devAddr, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_CLKSEL_BIT, MPU6050_PWR1_CLKSEL_LENGTH, buffer);
-    return  buffer[0];
+void MPU6050::getClockSource(unsigned char *buffer_ptr) {
+    temp_sensor -> readBits(devAddr, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_CLKSEL_BIT, MPU6050_PWR1_CLKSEL_LENGTH, buffer_ptr);
+    //return  buffer[0];
 }
 /** Set clock source setting.
  * An internal 8MHz oscillator, gyroscope based clock, or external sources can
@@ -2681,9 +2681,10 @@ void MPU6050::setFIFOByte(unsigned char data) {
  * @see MPU6050_WHO_AM_I_BIT
  * @see MPU6050_WHO_AM_I_LENGTH
  */
-unsigned char MPU6050::getDeviceID() {
-    temp_sensor -> readBits(devAddr, MPU6050_RA_WHO_AM_I, MPU6050_WHO_AM_I_BIT, MPU6050_WHO_AM_I_LENGTH, buffer);
-    return buffer[0];
+void MPU6050::getDeviceID(unsigned char *buffer_ptr) {
+    temp_sensor -> readBits(devAddr, MPU6050_RA_WHO_AM_I, MPU6050_WHO_AM_I_BIT, MPU6050_WHO_AM_I_LENGTH, buffer_ptr);
+    printf("MPU6050 - getDeviceID buffer: %X\n", buffer_ptr);
+    //return buffer[0];
 }
 /** Set Device ID.
  * Write a new ID into the WHO_AM_I register (no idea why this should ever be
