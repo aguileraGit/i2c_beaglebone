@@ -13,7 +13,7 @@
 		215EA4A9160183D0008B6743 /* main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = main.h; path = ../main.h; sourceTree = "<group>"; };
 		215EA4AA160183D0008B6743 /* MPU6050.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MPU6050.cpp; path = ../MPU6050.cpp; sourceTree = "<group>"; };
 		215EA4AB160183D0008B6743 /* MPU6050.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MPU6050.h; path = ../MPU6050.h; sourceTree = "<group>"; };
-		215EA4AC16018DB3008B6743 /* README.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = README.rtf; path = ../README.rtf; sourceTree = "<group>"; };
+		21807D2C16167E4600FD23B9 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -22,11 +22,11 @@
 			children = (
 				215EA4A4160183D0008B6743 /* i2CDev.cpp */,
 				215EA4A5160183D0008B6743 /* i2CDev.h */,
-				215EA4AC16018DB3008B6743 /* README.rtf */,
 				215EA4A8160183D0008B6743 /* main.cpp */,
 				215EA4A9160183D0008B6743 /* main.h */,
 				215EA4AA160183D0008B6743 /* MPU6050.cpp */,
 				215EA4AB160183D0008B6743 /* MPU6050.h */,
+				21807D2C16167E4600FD23B9 /* README.txt */,
 			);
 			sourceTree = "<group>";
 		};
