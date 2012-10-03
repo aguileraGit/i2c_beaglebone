@@ -557,7 +557,7 @@ public:
     void getMotion9(int* ax, int* ay, int* az, int* gx, int* gy, int* gz, int* mx, int* my, int* mz);
     void getMotion6(int* ax, int* ay, int* az, int* gx, int* gy, int* gz);
     void getAcceleration(int* x, int* y, int* z);
-    void getAccelerationX(unsigned char *buffer_ptr);
+    void getAccelerationX(unsigned char *buffer_int);
     void getAccelerationY(unsigned char *buffer_ptr);
     void getAccelerationZ(unsigned char *buffer_ptr);
     

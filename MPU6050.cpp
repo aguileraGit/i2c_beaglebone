@@ -1774,8 +1774,8 @@ void MPU6050::getAcceleration(int* x, int* y, int* z) {
  * @see getMotion6()
  * @see MPU6050_RA_ACCEL_XOUT_H
  */
-void MPU6050::getAccelerationX(unsigned char *buffer_ptr) {
-    temp_sensor -> readBytes(devAddr, MPU6050_RA_ACCEL_XOUT_H, 2, buffer);
+void MPU6050::getAccelerationX(unsigned char *buffer_int) {
+    temp_sensor -> readBytes(devAddr, MPU6050_RA_ACCEL_XOUT_H, 2, buffer_int);
     //return (((int)buffer[0]) << 8) | buffer[1];
 }
 /** Get Y-axis accelerometer reading.
@@ -1784,7 +1784,7 @@ void MPU6050::getAccelerationX(unsigned char *buffer_ptr) {
  * @see MPU6050_RA_ACCEL_YOUT_H
  */
 void MPU6050::getAccelerationY(unsigned char *buffer_ptr) {
-    temp_sensor -> readBytes(devAddr, MPU6050_RA_ACCEL_YOUT_H, 2, buffer);
+    temp_sensor -> readBytes(devAddr, MPU6050_RA_ACCEL_YOUT_H, 2, buffer_ptr);
     //return (((int)buffer[0]) << 8) | buffer[1];
 }
 /** Get Z-axis accelerometer reading.
@@ -1793,7 +1793,7 @@ void MPU6050::getAccelerationY(unsigned char *buffer_ptr) {
  * @see MPU6050_RA_ACCEL_ZOUT_H
  */
 void MPU6050::getAccelerationZ(unsigned char *buffer_ptr) {
-    temp_sensor -> readBytes(devAddr, MPU6050_RA_ACCEL_ZOUT_H, 2, buffer);
+    temp_sensor -> readBytes(devAddr, MPU6050_RA_ACCEL_ZOUT_H, 2, buffer_ptr);
     //return (((int)buffer[0]) << 8) | buffer[1];
 }
 

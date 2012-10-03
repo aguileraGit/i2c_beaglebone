@@ -23,11 +23,11 @@ int main() {
     
     MPU6050 *MPU_1 = new MPU6050();
     int i;
+    
     unsigned char *buffer_ptr = NULL;
     unsigned char buffer[14];
-    
     buffer_ptr = &buffer[0];
-    
+
     
     //Run init functions
     
@@ -89,18 +89,17 @@ int main() {
 
     //Read 10 X,Y,A Accel values
     printf("\nAccel Values\n");
-    for (i= 0; i< 10; i++) {
+    for (i= 0; i< 5; i++) {
         
         //Test - Read Accel - Passes
         MPU_1 -> getAccelerationX(buffer_ptr);
-        //(((int)buffer[0]) << 8) | buffer[1];
-        printf("Accel_X: %d\n", *buffer_ptr);
+        printf("Accel_X: %X\n", *buffer_ptr);
         
         MPU_1 -> getAccelerationY(buffer_ptr);
-        printf("Accel_Y: %d\n", *buffer_ptr);
+        printf("Accel_Y: %X\n", *buffer_ptr);
         
         MPU_1 -> getAccelerationZ(buffer_ptr);
-        printf("Accel_Z: %d\n", *buffer_ptr);
+        printf("Accel_Z: %X\n", *buffer_ptr);
         
         
         sleep(1);

@@ -80,13 +80,12 @@ unsigned char i2Cdev::readByte(unsigned char devAddr, unsigned char regAddr, uns
     //Close
     close(i2cFile);
     
-    //Save buffer... to what? Error.
+    //Save buffer
     *data = I2C_RD_Buf[0];
     
     //printf("readByte - I2C_RD_Buffer: %X\n", I2C_RD_Buf[0]);
     printf("i2C - readByte - data: %X\n", *data);
     
-    //Made it this far. Everything must of passed. Return 0. Usually 0 is success, but this would cause it to not go into readBit if statement.
     return 1;
     
 }
@@ -135,14 +134,17 @@ unsigned char i2Cdev::readBytes(unsigned char devAddr, unsigned char regAddr, un
     //Close
     close(i2cFile);
     
-    //Save buffer to data... Error data needs to be define or something.
-    *data = I2C_RD_Buf[length];
+    //Save buffer to data
+    //*data = I2C_RD_Buf[0];
+    //for(i = 0; i < length; i++){
+    //    *data = I2C_RD_Buf[i] << I2C_RD_Buf[i+1];
+    //}
     
-    //printf("readBytes - I2C_RD_Buffer: %X\n", I2C_RD_Buf[length]);
-    for(i = 0; i< length; i++){
-        printf("i2c - readBytes - data: %X\n", *(data + i) );
-    }
+    *data = I2C_RD_Buf[0]; // << 2 & I2C_RD_Buf[1];
     
+    printf("readBytes - *data: %X\n", *data );
+    printf("readBytes - I2C_RD_Buffer: %X%X\n", I2C_RD_Buf[0],I2C_RD_Buf[1]);
+
     //Return number of bytes returned.
     return length;
 }
