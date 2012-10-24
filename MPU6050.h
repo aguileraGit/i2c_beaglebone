@@ -399,7 +399,7 @@ public:
     void setDLPFMode(unsigned char bandwidth);
     
     // GYRO_CONFIG register
-    void getFullScaleGyroRange(unsigned char *buffer_ptr);
+    unsigned char getFullScaleGyroRange();
     void setFullScaleGyroRange(unsigned char range);
     
     // ACCEL_CONFIG register
@@ -409,7 +409,7 @@ public:
     void setAccelYSelfTest(bool enabled);
     bool getAccelZSelfTest();
     void setAccelZSelfTest(bool enabled);
-    void getFullScaleAccelRange(unsigned char *buffer_ptr);
+    unsigned char getFullScaleAccelRange();
     void setFullScaleAccelRange(unsigned char range);
     unsigned char getDHPFMode();
     void setDHPFMode(unsigned char mode);
@@ -557,9 +557,9 @@ public:
     void getMotion9(int* ax, int* ay, int* az, int* gx, int* gy, int* gz, int* mx, int* my, int* mz);
     void getMotion6(int* ax, int* ay, int* az, int* gx, int* gy, int* gz);
     void getAcceleration(int* x, int* y, int* z);
-    void getAccelerationX(unsigned char *buffer_int);
-    void getAccelerationY(unsigned char *buffer_ptr);
-    void getAccelerationZ(unsigned char *buffer_ptr);
+    int getAccelerationX();
+    int getAccelerationY();
+    int getAccelerationZ();
     
     // TEMP_OUT_* registers
     int getTemperature();
@@ -618,13 +618,13 @@ public:
     
     // PWR_MGMT_1 register
     void reset();
-    void getSleepEnabled(unsigned char *buffer_ptr);
+    bool getSleepEnabled();
     void setSleepEnabled(bool enabled);
     bool getWakeCycleEnabled();
     void setWakeCycleEnabled(bool enabled);
     bool getTempSensorEnabled();
     void setTempSensorEnabled(bool enabled);
-    void getClockSource(unsigned char *buffer_ptr);
+    unsigned char getClockSource();
     void setClockSource(unsigned char source);
     
     // PWR_MGMT_2 register
@@ -652,7 +652,7 @@ public:
     void getFIFOBytes(unsigned char *data, unsigned char length);
     
     // WHO_AM_I register
-    void getDeviceID(unsigned char *buffer_ptr);
+    unsigned char getDeviceID();
     void setDeviceID(unsigned char id);
     
     // ======== UNDOCUMENTED/DMP REGISTERS/METHODS ========
@@ -955,10 +955,11 @@ public:
     unsigned long int dmpGetAccelSumOfSquare();
     void dmpOverrideQuaternion(long *q);
     uint dmpGetFIFOPacketSize();
-#endif
     
-    //unsigned char devAddr;
-    //unsigned char buffer[14];
+    
+#endif
+    unsigned char* getBuffer();
+
     
 private:
     unsigned char devAddr;

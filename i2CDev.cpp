@@ -84,7 +84,7 @@ unsigned char i2Cdev::readByte(unsigned char devAddr, unsigned char regAddr, uns
     *data = I2C_RD_Buf[0];
     
     //printf("readByte - I2C_RD_Buffer: %X\n", I2C_RD_Buf[0]);
-    printf("i2C - readByte - data: %X\n", *data);
+    //printf("i2C - readByte - data: %X\n", *data);
     
     return 1;
     
@@ -135,17 +135,11 @@ unsigned char i2Cdev::readBytes(unsigned char devAddr, unsigned char regAddr, un
     close(i2cFile);
     
     //Save buffer to data
-    //*data = I2C_RD_Buf[0];
-    //for(i = 0; i < length; i++){
-    //    *data = I2C_RD_Buf[i] << I2C_RD_Buf[i+1];
-    //}
-    
-    *data = I2C_RD_Buf[0]; // << 2 & I2C_RD_Buf[1];
-    
-    printf("readBytes - *data: %X\n", *data );
-    printf("readBytes - I2C_RD_Buffer: %X%X\n", I2C_RD_Buf[0],I2C_RD_Buf[1]);
+    for(i = 0; i < length; i++){
+        data[i] = I2C_RD_Buf[i];
+        //printf("readBytes - data[%d] = %X\n", i, I2C_RD_Buf[i]);
+    }
 
-    //Return number of bytes returned.
     return length;
 }
 
@@ -166,8 +160,7 @@ unsigned char i2Cdev::readBit(unsigned char devAddr, unsigned char regAddr, unsi
     
     
     //For testing actual output
-    //printf("i2c - readBit - Count: %X\n", count);
-    printf("i2c - readBit - data: %X\n", *data);
+    //printf("i2c - readBit - data: %X\n", *data);
     
     return count;
     
@@ -201,7 +194,7 @@ unsigned char i2Cdev::readBits(unsigned char devAddr, unsigned char regAddr, uns
     
     //For testing actual output
     //printf("i2c - readBits - b: %c\n", b);
-    printf("i2c - readBits - data: %X\n", *data );
+    //printf("i2c - readBits - data: %X\n", *data );
     
     return count;
     
@@ -224,7 +217,7 @@ bool i2Cdev::writeBit(unsigned char devAddr, unsigned char regAddr, unsigned cha
     unsigned char b;
     readByte(devAddr, regAddr, &b);
     b = (data != 0) ? (b | (1 << bitNum)) : (b & ~(1 << bitNum));
-    printf("i2c - writeBit - b: %X\n", b);
+    //printf("i2c - writeBit - b: %X\n", b);
     return writeByte(devAddr, regAddr, b);
 }
 
@@ -264,7 +257,7 @@ bool i2Cdev::writeByte(unsigned char devAddr, unsigned char regAddr, unsigned ch
     //Close
     close(i2cFile);
     
-    printf("i2C - writeByte - data: %X\n", data);
+    //printf("i2C - writeByte - data: %X\n", data);
 }
 
 
@@ -293,11 +286,11 @@ bool i2Cdev::writeBits(unsigned char devAddr, unsigned char regAddr, unsigned ch
         data &= mask; // zero all non-important bits in data
         b &= ~(mask); // zero all important bits in existing byte
         b |= data; // combine data with existing byte
-        printf("i2c - writeBit - b: %X\n", b);
+        //printf("i2c - writeBit - b: %X\n", b);
         return writeByte(devAddr, regAddr, b);
     } else {
         //else was already here
-        printf("writeBits - No bueno!\n");
+        //printf("writeBits - No bueno!\n");
         return false;
     }
 }
